@@ -3,63 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibePick - Stop Scrolling, Start Living</title>
+    <title>VibePick - Start Living</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="background-blobs"></div>
-    
-    <main class="container">
+
+    <section id="splash-page">
+        <div class="background-gradient"></div>
+        <div class="glass-overlay">
+            <h1 class="main-title" id="vibe-title">VibePick</h1>
+            <p class="sub-text">Stop Scrolling, Start Living.</p>
+            <div id="glitter-container"></div>
+            <div class="scroll-indicator">Scroll Down <i class="fas fa-chevron-down"></i></div>
+        </div>
+    </section>
+
+    <div id="side-panel" class="side-panel">
+        <div class="side-header">
+            <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <span>Hey, VibeUser</span>
+            </div>
+        </div>
+        <nav class="side-nav">
+            <a href="#" onclick="showWishlistPage()"><i class="fas fa-heart"></i> My Wishlists</a>
+            <a href="#"><i class="fas fa-history"></i> Recent Picks</a>
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        </nav>
+    </div>
+
+    <section id="wishlist-page" class="full-page-overlay">
+        <div class="wishlist-container">
+            <div class="wishlist-header">
+                <i class="fas fa-arrow-left" onclick="hideWishlistPage()"></i>
+                <h2>My Wishlists</h2>
+            </div>
+            <div class="wishlist-categories">
+                <div class="wish-cat">
+                    <button class="cat-btn">🍕 Food</button>
+                    <button class="add-plus" onclick="addToWishlist('Food')">+</button>
+                    <ul id="list-Food"></ul>
+                </div>
+                <div class="wish-cat">
+                    <button class="cat-btn">🎬 Movies</button>
+                    <button class="add-plus" onclick="addToWishlist('Movies')">+</button>
+                    <ul id="list-Movies"></ul>
+                </div>
+                <div class="wish-cat">
+                    <button class="cat-btn">📍 Places</button>
+                    <button class="add-plus" onclick="addToWishlist('Places')">+</button>
+                    <ul id="list-Places"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="main-dashboard">
         <header>
-            <h1>VibePick</h1>
-            <p class="subtitle">Stop Scrolling, Start Living</p>
+            <div class="header-left">
+                <div class="hamburger-menu" onclick="toggleSidebar()">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <h1 class="main-heading-black">✨VibePick✨</h1>
+            <div class="header-right">
+                <i class="fas fa-bell icon-btn"></i>
+            </div>
         </header>
 
-        <section class="vibe-selector">
-            <h2>What's the Vibe Today?</h2>
-            
-            <div class="slider-container">
-                <div class="mood-labels">
-                    <span>☀️ Productive</span>
-                    <span>😐 Neutral</span>
-                    <span>💔 Sad</span>
+        <main class="content-area">
+            <div class="card-container">
+                <div class="nav-card" style="--bg: #E2F0CB;" onclick="openModal('food-modal')">
+                    <i class="fas fa-utensils"></i>
+                    <span>Dineout</span>
                 </div>
-                <input type="range" min="1" max="100" value="50" class="slider" id="moodSlider" aria-label="Mood Slider">
-                
-                <div class="emoji-wrapper">
-                    <div class="current-emoji" id="emojiDisplay">😐</div>
+                <div class="nav-card" style="--bg: #FFDAC1;" onclick="openModal('movie-modal')">
+                    <i class="fas fa-film"></i>
+                    <span>Movies</span>
                 </div>
-                <p id="moodText">Neutral</p>
+                <div class="nav-card" style="--bg: #C7CEEA;" onclick="openModal('travel-modal')">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Travel</span>
+                </div>
             </div>
-        </section>
+        </main>
+    </section>
 
-        <nav class="category-menu" role="tablist">
-            <button class="cat-btn active" data-type="watch" aria-selected="true">🎬 Watch</button>
-            <button class="cat-btn" data-type="eat" aria-selected="false">🍴 Eat</button>
-            <button class="cat-btn" data-type="listen" aria-selected="false">🎧 Listen</button>
-            <button class="cat-btn" data-type="go" aria-selected="false">✈️ Travel</button>
-        </nav>
-
-        <div class="result-card" id="resultCard">
-            <p id="resultText">Select your vibe and hit Magic!</p>
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('movie-modal')">&times;</span>
+            <h2>Find Your Vibe 🎬</h2>
+            <form id="movie-form">
+                <label>Choose Genre:</label>
+                <select id="movie-genre">
+                    <option value="Horror">Horror</option>
+                    <option value="Romantic">Romantic</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Action">Action</option>
+                </select><br>
+                <label>Current Mood:</label>
+                <input type="text" id="movie-mood" placeholder="e.g. Happy, Tired...">
+                <button type="button" class="submit-btn" onclick="handleMovieLogic()">Get Recommendation</button>
+            </form>
         </div>
+    </div>
 
-        <button class="magic-btn" id="magicBtn">✨ MAGIC BUTTON</button>
-    </main>
-    <div id="prefModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <h3 id="modalTitle">Preferences</h3>
-        <hr>
-        <div id="form-body">
-            </div>
-        <button type="button" id="submitAction" class="magic-btn" style="width:100%; margin-top:20px;">Get My Suggestion</button>
+    <div id="food-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('food-modal')">&times;</span>
+            <h2>Menu Suggester 🍕</h2>
+            <form id="dineout-form">
+                <label>Upload Menu Card:</label>
+                <input type="file" id="menu-upload" accept="image/*"><br>
+                <label>Dietary Preference:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="diet" value="Veg" checked> Veg</label>
+                    <label><input type="radio" name="diet" value="Non-Veg"> Non-Veg</label>
+                </div>
+                <label>Craving:</label>
+                <div class="checkbox-grid">
+                    <label><input type="checkbox" name="craving" value="Spicy"> Spicy</label>
+                    <label><input type="checkbox" name="craving" value="Dessert"> Dessert</label>
+                </div>
+                <label>Max Expense: $<span id="price-val-food">250</span></label>
+                <input type="range" min="10" max="500" value="250" oninput="document.getElementById('price-val-food').innerText = this.value">
+                <button type="button" class="submit-btn" onclick="handleDineoutLogic()">Suggest Best Dish</button>
+            </form>
+        </div>
     </div>
-</div>
-<div id="form-body">
+
+    <div id="travel-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('travel-modal')">&times;</span>
+            <h2>Plan Your Trip ✈️</h2>
+            <form id="travel-form">
+                <label>Duration (Days):</label>
+                <input type="number" id="travel-days" placeholder="e.g. 5">
+                <br>
+                <label>Interests:</label>
+                <select id="travel-interest">
+                    <option value="Modern City">Modern City</option>
+                    <option value="Quiet Village">Quiet Village</option>
+                    <option value="Mountains">Mountains</option>
+                    <option value="Heritage Sites">Heritage Sites</option>
+                </select>
+                <label>Max Expense: $<span id="price-val-travel">250</span></label>
+                <input type="range" min="10" max="500" value="250" oninput="document.getElementById('price-val-travel').innerText = this.value">
+                <button type="button" class="submit-btn" onclick="handleTravelLogic()">Find Destination</button>
+            </form>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <div id="result-modal" class="modal">
+        <div class="result-card">
+            <div id="confetti-container"></div>
+            <span class="close" onclick="closeModal('result-modal')">&times;</span>
+            <div id="result-icon">✨</div>
+            <h2 id="result-title">Perfect Match!</h2>
+            <p id="result-text">Finding your vibe...</p>
+            <button class="submit-btn" onclick="closeModal('result-modal')">Awesome!</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
