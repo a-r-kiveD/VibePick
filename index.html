@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibePick - Stop Scrolling, Start Living</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-blobs"></div>
+    
+    <main class="container">
+        <header>
+            <h1>VibePick</h1>
+            <p class="subtitle">Stop Scrolling, Start Living</p>
+        </header>
+
+        <section class="vibe-selector">
+            <h2>What's the Vibe Today?</h2>
+            
+            <div class="slider-container">
+                <div class="mood-labels">
+                    <span>☀️ Productive</span>
+                    <span>😐 Neutral</span>
+                    <span>💔 Sad</span>
+                </div>
+                <input type="range" min="1" max="100" value="50" class="slider" id="moodSlider" aria-label="Mood Slider">
+                
+                <div class="emoji-wrapper">
+                    <div class="current-emoji" id="emojiDisplay">😐</div>
+                </div>
+                <p id="moodText">Neutral</p>
+            </div>
+        </section>
+
+        <nav class="category-menu" role="tablist">
+            <button class="cat-btn active" data-type="watch" aria-selected="true">🎬 Watch</button>
+            <button class="cat-btn" data-type="eat" aria-selected="false">🍴 Eat</button>
+            <button class="cat-btn" data-type="listen" aria-selected="false">🎧 Listen</button>
+            <button class="cat-btn" data-type="go" aria-selected="false">✈️ Travel</button>
+        </nav>
+
+        <div class="result-card" id="resultCard">
+            <p id="resultText">Select your vibe and hit Magic!</p>
+        </div>
+
+        <button class="magic-btn" id="magicBtn">✨ MAGIC BUTTON</button>
+    </main>
+    <div id="prefModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3 id="modalTitle">Preferences</h3>
+        <hr>
+        <div id="form-body">
+            </div>
+        <button type="button" id="submitAction" class="magic-btn" style="width:100%; margin-top:20px;">Get My Suggestion</button>
+    </div>
+</div>
+<div id="form-body">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

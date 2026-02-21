@@ -1,0 +1,288 @@
+:root {
+    --pastel-blue: #d0e1ff;
+    --pastel-pink: #ffd0eb;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --productive-gold: #D4AF37;
+    --neutral-blue: #5D87BB;
+    --sad-red: #C74B67;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-pink));
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    border-radius: 30px;
+    padding: 40px;
+    height: 85%;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+h1 { color: #333; margin: 0; font-weight: 700; }
+.subtitle { color: #888; font-size: 0.85rem; margin-bottom: 30px; }
+
+/* --- Slider Section --- */
+.slider-container {
+    margin: 20px 0;
+    padding: 0 10px;
+}
+
+.mood-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.slider {
+    width: 100%;
+    appearance: none;
+    height: 10px;
+    border-radius: 10px;
+    /* This creates the smooth color journey */
+    background: linear-gradient(to right, #FFD93D, #A1C4FD, #FF8AAE); 
+    outline: none;
+    margin-bottom: 15px;
+}
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+.current-emoji {
+    font-size: 3.5rem;
+    margin: 10px 0;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
+}
+
+#moodText {
+    font-weight: 600;
+    margin-bottom: 25px;
+    transition: color 0.3s ease;
+}
+
+/* --- Category Menu --- */
+
+.category-menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.cat-btn {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.cat-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    background: rgba(157, 255, 247, 0.5);
+
+}
+
+.cat-btn.active {
+    background: #ffffff;
+    color: #000000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+/* Menu Preview Image */
+#menuPreview {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 10px;
+    display: none; /* Hidden until upload */
+}
+
+/* Expense Slider Styling */
+.expense-range {
+    width: 100%;
+    accent-color: #ff9a9e;
+}
+
+.priority-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 5px;
+}
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+#resultText:contains("Scanning") {
+    animation: pulse 1s infinite;
+    color: var(--neutral-blue);
+    font-weight: bold;
+}
+
+/* --- Result Card --- */
+.result-card {
+    background: rgba(245, 250, 165, 0.6);
+    padding: 20px;
+    border-radius: 20px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    color: #444;
+    border: 1px dashed rgba(0,0,0,0.1);
+    transition: opacity 0.3s ease;
+}
+
+/* --- Magic Button --- */
+.magic-btn {
+    background: linear-gradient(45deg, #f68a8d, #fad0c4);
+    border: none;
+    padding: 16px 45px;
+    border-radius: 50px;
+    color: white;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.magic-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(17, 1, 1, 0.5);
+    overflow: hidden;
+}
+
+.magic-btn:active {
+    transform: translateY(0);
+}
+ .form-group { margin-bottom: 15px; text-align: left; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
+.form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4); /* Dim background */
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto; /* Reduced top margin to show more of the card */
+    padding: 25px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 400px;
+    text-align: left;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    position: relative;
+    max-height: 90vh; /* Prevents the form from going off-screen */
+    overflow-y: auto; /* Adds a scrollbar if the content is too long */
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Ensure form groups have a bit more space */
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group input {
+    padding: 12px; /* Thicker touch targets */
+    border: 1.5px solid #eee;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group select, .form-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+/* Menu Upload Styling */
+.upload-box {
+    border: 2px dashed #b8c6ff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+    cursor: pointer;
+    background: #f9faff;
+    transition: 0.3s;
+}
+.upload-box:hover { background: #f0f3ff; }
+.upload-box i { font-size: 2rem; display: block; margin-bottom: 10px; }
