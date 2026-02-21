@@ -118,15 +118,10 @@
                 <label>Upload Menu Card:</label>
                 <input type="file" id="menu-upload" accept="image/*"><br>
                 <label>Dietary Preference:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="diet" value="Veg" checked> Veg</label>
-                    <label><input type="radio" name="diet" value="Non-Veg"> Non-Veg</label>
-                </div>
-                <label>Craving:</label>
-                <div class="checkbox-grid">
-                    <label><input type="checkbox" name="craving" value="Spicy"> Spicy</label>
-                    <label><input type="checkbox" name="craving" value="Dessert"> Dessert</label>
-                </div>
+                <input type="radio" name="diet" value="spicy"> Spicy
+<input type="radio" name="diet" value="dessert"> Dessert
+<input type="radio" name="diet" value="nonveg"> Non Veg
+<input type="radio" name="diet" value="any"> Any>
                 <label>Max Expense: $<span id="price-val-food">250</span></label>
                 <input type="range" min="10" max="500" value="250" oninput="document.getElementById('price-val-food').innerText = this.value">
                 <button type="button" class="submit-btn" onclick="handleDineoutLogic()">Suggest Best Dish</button>
@@ -148,7 +143,7 @@
                     <option value="Quiet Village">Quiet Village</option>
                     <option value="Mountains">Mountains</option>
                     <option value="Heritage Sites">Heritage Sites</option>
-                </select>
+                </select><br>
                 <label>Max Expense: $<span id="price-val-travel">250</span></label>
                 <input type="range" min="10" max="500" value="250" oninput="document.getElementById('price-val-travel').innerText = this.value">
                 <button type="button" class="submit-btn" onclick="handleTravelLogic()">Find Destination</button>
