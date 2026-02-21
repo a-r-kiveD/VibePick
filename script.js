@@ -1,184 +1,252 @@
-/**
- * VibePick Interactive Script
- * Consolidated & Corrected Version
- */
-
-// Global scope functions for HTML onclick attributes
-let toggleSidebar, showWishlistPage, hideWishlistPage, addToWishlist, 
-    openModal, closeModal, handleDineoutLogic, handleTravelLogic, 
-    handleMovieLogic;
-
-document.addEventListener('DOMContentLoaded', () => {
-    const glitterContainer = document.getElementById('glitter-container');
-    
-    // --- 1. Initial Animations (Glitter) ---
-    if (glitterContainer) {
-        for (let i = 0; i < 40; i++) {
-            setTimeout(() => {
-                createGlitter(glitterContainer);
-            }, 100 + (i * 25));
-        }
-    }
-
-    // --- 2. Sidebar & Navigation Logic ---
-    toggleSidebar = function() {
-        const panel = document.getElementById('side-panel');
-        if (panel) panel.classList.toggle('active');
-    };
-
-    showWishlistPage = function() {
-        const wishlist = document.getElementById('wishlist-page');
-        if (wishlist) {
-            wishlist.style.display = 'block';
-            toggleSidebar(); // Close sidebar when entering
-        }
-    };
-
-    hideWishlistPage = function() {
-        const wishlist = document.getElementById('wishlist-page');
-        if (wishlist) wishlist.style.display = 'none';
-    };
-
-    addToWishlist = function(category) {
-        const item = prompt(`Add a new ${category.toLowerCase()} to your list:`);
-        if (item) {
-            const list = document.getElementById(`list-${category}`);
-            if (list) {
-                const li = document.createElement('li');
-                li.style.listStyle = "none";
-                li.style.padding = "8px 0";
-                li.style.borderBottom = "1px solid #eee";
-                li.innerHTML = `✨ ${item}`;
-                list.appendChild(li);
-            }
-        }
-    };
-
-    // --- 3. Modal Controls ---
-    openModal = function(id) {
-        const modal = document.getElementById(id);
-        if (modal) {
-            modal.style.display = "block";
-            document.body.style.overflow = "hidden"; // Lock scroll
-        }
-    };
-
-    closeModal = function(id) {
-        const modal = document.getElementById(id);
-        if (modal) {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto"; // Unlock scroll
-        }
-    };
-
-    // --- 4. Feature Specific Logic ---
-
-    // Movie Logic (Combined Mood + Genre)
-    handleMovieLogic = function() {
-        const genreElement = document.getElementById('movie-genre');
-        const moodElement = document.getElementById('movie-mood');
-        
-        const genre = genreElement ? genreElement.value.toLowerCase() : "";
-        const mood = moodElement ? moodElement.value.toLowerCase() : "";
-        
-        let rec = "";
-        if (mood.includes('happy')) rec = "The Grand Budapest Hotel";
-        else if (mood.includes('tired')) rec = "Spirited Away";
-        else if (genre.includes('horror')) rec = "The Nun";
-        else if (genre.includes('comedy')) rec = "Dumb and Dumber";
-        else if (genre.includes('romantic')) rec = "Cinderella";
-        else rec = "Interstellar";
-
-        showResult('🎬', 'Movie Pick!', `Since you're feeling ${mood || 'vibey'} and want ${genre}, you should watch "${rec}"!`);
-    };
-
-    // Travel Logic
-    handleTravelLogic = function() {
-        const interest = document.getElementById('travel-interest').value;
-        const days = document.getElementById('travel-days').value || 3;
-        
-        let destination = (interest === "Mountains") ? "Swiss Alps" : 
-                          (interest === "Modern City") ? "Tokyo" : "The Amalfi Coast";
-
-        showResult('✈️', 'Trip Found!', `Pack for ${days} days! We suggest heading to ${destination} for a ${interest} vibe.`);
-    };
-
-    // Dineout Logic
-    handleDineoutLogic = function() {
-        const fileInput = document.getElementById('menu-upload');
-        const dietEl = document.querySelector('input[name="diet"]:checked');
-        
-        if (fileInput && fileInput.files.length === 0) {
-            alert("Please upload a menu card first!");
-            return;
-        }
-        
-        const diet = dietEl ? dietEl.value : "any";
-        showResult('🍕', 'Tasty Choice!', `We scanned the menu! Based on your ${diet} diet, try the Signature Platter.`);
-    };
-});
-
-// --- HELPER ENGINES (Outside DOMContentLoaded for clean access) ---
-
-function createGlitter(parent) {
-    const sparkle = document.createElement('div');
-    sparkle.classList.add('glitter');
-    const x = (Math.random() - 0.5) * 500; 
-    const y = (Math.random() - 0.5) * 250;
-    const size = Math.random() * 8 + 2;
-    
-    sparkle.style.width = `${size}px`;
-    sparkle.style.height = `${size}px`;
-    sparkle.style.left = `calc(50% + ${x}px)`;
-    sparkle.style.top = `calc(50% + ${y}px)`;
-    
-    parent.appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 3000);
+/* 1. Global Reset & Variables */
+:root {
+    --off-white: #f8f9fa; /* Softened for better contrast with pastels */
+    --pastel-blue: #c1fcf9;
+    --pastel-green: #e2f0cb;
+    --pastel-peach: #ffdac1;
+    --text-black: #1a1a1a;
+    --glass-white: rgba(255, 255, 255, 0.2);
+    --glass-dark: rgba(0, 0, 0, 0.1);
 }
 
-function launchConfetti() {
-    const container = document.getElementById('confetti-container');
-    if (!container) return;
-    container.innerHTML = ''; // Clear old confetti
-    
-    const colors = ['#FFD1DC', '#B2E2F2', '#C1E1C1', '#FFB347', '#B39EB5'];
-    for (let i = 0; i < 60; i++) {
-        const p = document.createElement('div');
-        p.classList.add('confetti');
-        p.style.left = Math.random() * 100 + '%';
-        p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        p.style.animationDelay = Math.random() * 0.8 + 's';
-        container.appendChild(p);
-        setTimeout(() => p.remove(), 2500);
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-function showResult(icon, title, text) {
-    // Hide input modals
-    document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-    
-    document.getElementById('result-icon').innerText = icon;
-    document.getElementById('result-title').innerText = title;
-    document.getElementById('result-text').innerText = text;
-    
-    const resultModal = document.getElementById('result-modal');
-    if (resultModal) {
-        resultModal.style.display = 'block';
-        launchConfetti();
-    }
+html {
+    scroll-behavior: smooth;
 }
 
-// Global Event Listeners
-window.addEventListener('click', (e) => {
-    // Close sidebar on outside click
-    const panel = document.getElementById('side-panel');
-    const burger = document.querySelector('.hamburger-menu');
-    if (panel && panel.classList.contains('active') && !panel.contains(e.target) && !burger.contains(e.target)) {
-        panel.classList.remove('active');
-    }
-    // Close modal on overlay click
-    if (e.target.classList.contains('modal')) {
-        e.target.style.display = "none";
-        document.body.style.overflow = "auto";
-    }
-});
+body {
+    background-color: var(--off-white);
+    overflow-x: hidden;
+}
+
+/* 2. Splash Page Layout */
+#splash-page {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.background-gradient {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    background: linear-gradient(45deg, #ffb3b6, #fad0c4, #bbdffa, #c2e9fb);
+    background-size: 400% 400%;
+    animation: gradientBG 8s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.glass-container {
+    background: var(--glass-white);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    padding: 4rem 6rem;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.main-title {
+    font-size: 5rem;
+    color: #fff;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.sub-text {
+    font-size: 1.5rem;
+    color: #fff;
+    opacity: 0;
+    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation-delay: 0.4s;
+}
+
+/* 3. Dashboard Header & Sidebar */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.hamburger-menu {
+    width: 30px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.hamburger-menu span {
+    width: 100%;
+    height: 3px;
+    background: #333;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.side-panel {
+    position: fixed;
+    top: 0; left: -300px;
+    width: 300px; height: 100%;
+    background: white;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2000;
+    padding: 30px 20px;
+}
+.side-panel.active { left: 0; }
+
+/* 4. Wishlist Overlay */
+.full-page-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--off-white);
+    z-index: 3000;
+    display: none;
+    animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+.wish-cat {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* 5. Navigation Cards */
+.content-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+.card-container { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+
+.nav-card {
+    width: 220px; height: 220px;
+    background-color: var(--bg);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.nav-card:hover { transform: translateY(-15px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+.nav-card i { font-size: 3.5rem; margin-bottom: 15px; color: #333; }
+
+/* 6. Modals & Forms */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 4000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 30px;
+    position: relative;
+    animation: popIn 0.5s ease;
+}
+
+.radio-group, .checkbox-grid {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.radio-item, .check-item {
+    background: #f1f3f5;
+    padding: 10px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.radio-item:hover, .check-item:hover { background: var(--pastel-blue); }
+
+input[type="radio"], input[type="checkbox"] { accent-color: var(--text-black); }
+
+/* 7. Result Card & Confetti */
+.result-card {
+    background: white;
+    margin: 10% auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 40px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    animation: popCenter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 5000;
+}
+
+@keyframes popCenter {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.confetti {
+    position: absolute;
+    width: 8px; height: 8px;
+    animation: fall 2.5s ease-out forwards;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
