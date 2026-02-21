@@ -1,4 +1,4 @@
-# main.py
+
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 from typing import Optional
@@ -9,7 +9,7 @@ from gemini_engine import get_recommendation
 
 app = FastAPI(title="Smart Recommendation API 🚀")
 
-# Initialize OCR once
+
 ocr_reader = easyocr.Reader(['en'])
 
 
@@ -22,7 +22,7 @@ def root():
 async def recommend(
     category: str = Form(...),
     preferences: Optional[str] = Form(None),
-    budget: Optional[str] = Form(None),           # changed to str
+    budget: Optional[str] = Form(None),          
     movie_mode: Optional[str] = Form(None),
     travel_vibe: Optional[str] = Form(None),
     travel_distance: Optional[str] = Form(None), # changed to str
@@ -35,7 +35,7 @@ async def recommend(
 
     prompt = ""
 
-    # -----------------
+    
     # FOOD
     # -----------------
     if category.lower() == "food":
@@ -59,7 +59,7 @@ async def recommend(
         Budget: {budget}
         """
 
-    # -----------------
+
     # MOVIE
     # -----------------
     elif category.lower() == "movie":
