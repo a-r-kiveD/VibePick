@@ -1,11 +1,13 @@
+
 /* 1. Global Reset & Variables */
 :root {
-    --off-white: hsl(75, 76%, 90%);
+    --off-white: #f8f9fa; /* Softened for better contrast with pastels */
     --pastel-blue: #c1fcf9;
-    --pastel-green: #f3ffe1;
-    --pastel-peach: #FFDAC1;
-    --text-black: #000000;
-    --glass-white: rgba(0, 0, 0, 0.2);
+    --pastel-green: #e2f0cb;
+    --pastel-peach: #ffdac1;
+    --text-black: #1a1a1a;
+    --glass-white: rgba(255, 255, 255, 0.2);
+    --glass-dark: rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -21,7 +23,7 @@ html {
 
 body {
     background-color: var(--off-white);
-    overflow-x: hidden; /* Prevent horizontal shake */
+    overflow-x: hidden;
 }
 
 /* 2. Splash Page Layout */
@@ -35,13 +37,10 @@ body {
     overflow: hidden;
 }
 
-/* Animated Pastel Gradient */
 .background-gradient {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     z-index: -1;
     background: linear-gradient(45deg, #ffb3b6, #fad0c4, #bbdffa, #c2e9fb);
     background-size: 400% 400%;
@@ -54,7 +53,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Glassmorphism Card */
 .glass-container {
     background: var(--glass-white);
     backdrop-filter: blur(15px);
@@ -64,13 +62,11 @@ body {
     padding: 4rem 6rem;
     text-align: center;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-    z-index: 2;
 }
 
-/* Popping Animations */
 .main-title {
     font-size: 5rem;
-    color: #eeff8f;
+    color: #fff;
     text-shadow: 0 4px 10px rgba(0,0,0,0.1);
     margin-bottom: 10px;
     animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
@@ -79,87 +75,88 @@ body {
 .sub-text {
     font-size: 1.5rem;
     color: #fff;
-    font-weight: 300;
     opacity: 0;
     animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     animation-delay: 0.4s;
 }
 
-@keyframes popIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.scroll-indicator {
-    position: absolute;
-    bottom: 30px;
-    color: white;
-    font-weight: bold;
-    animation: bounce 2s infinite;
-}
-
-/* 3. Dashboard Styles */
-#main-dashboard {
-    min-height: 100vh;
-    width: 100%;
-    padding-top: 20px;
-}
-
+/* 3. Dashboard Header & Sidebar */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 5%;
+    padding: 20px 5%;
     background: white;
-    margin: 0 20px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-.main-heading-black {
-    color: var(--text-black);
-    font-size: 2.2rem;
-    font-weight: 800;
+.hamburger-menu {
+    width: 30px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.hamburger-menu span {
+    width: 100%;
+    height: 3px;
+    background: #333;
+    border-radius: 10px;
+    transition: 0.3s;
 }
 
-.icon-btn { font-size: 1.5rem; cursor: pointer; color: #555; }
+.side-panel {
+    position: fixed;
+    top: 0; left: -300px;
+    width: 300px; height: 100%;
+    background: white;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2000;
+    padding: 30px 20px;
+}
+.side-panel.active { left: 0; }
 
-/* Dashboard Dropdown */
-.dashboard-menu { position: relative; display: inline-block; }
-.dropdown-content {
+/* 4. Wishlist Overlay */
+.full-page-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--off-white);
+    z-index: 3000;
     display: none;
-    position: absolute;
-    background: white;
-    min-width: 220px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    z-index: 100;
-    border-radius: 15px;
-    padding: 15px;
-    top: 45px;
+    animation: slideUp 0.5s ease forwards;
 }
-.dashboard-menu:hover .dropdown-content { display: block; }
-.dropdown-content a { 
-    display: block; 
-    padding: 12px; 
-    text-decoration: none; 
-    color: #000000; 
-    border-radius: 8px;
-}
-.dropdown-content a:hover { background-color: #f5f5f5; }
 
-/* Main Navigation Cards */
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+.wish-cat {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* 5. Navigation Cards */
 .content-area {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
+    min-height: 70vh;
 }
 
-.card-container { display: flex; gap: 40px; }
+.card-container { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
 
 .nav-card {
-    width: 220px;
-    height: 220px;
+    width: 220px; height: 220px;
     background-color: var(--bg);
     border-radius: 40px;
     display: flex;
@@ -172,14 +169,13 @@ header {
 }
 
 .nav-card:hover { transform: translateY(-15px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-.nav-card i { font-size: 3.5rem; margin-bottom: 15px; color: #020202; }
-.nav-card span { font-weight: bold; font-size: 1.3rem; color: var(--text-black); }
+.nav-card i { font-size: 3.5rem; margin-bottom: 15px; color: #333; }
 
-/* 4. Modals */
+/* 6. Modals & Forms */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 4000;
     left: 0; top: 0;
     width: 100%; height: 100%;
     background: rgba(0,0,0,0.4);
@@ -188,7 +184,7 @@ header {
 
 .modal-content {
     background: white;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 40px;
     width: 90%;
     max-width: 450px;
@@ -197,104 +193,42 @@ header {
     animation: popIn 0.5s ease;
 }
 
-.close { position: absolute; right: 25px; top: 15px; font-size: 30px; cursor: pointer; color: #999; }
-
-/* 5. Utility Animations */
-.glitter {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: sparkle 2s linear forwards;
-}
-
-@keyframes sparkle {
-    0% { transform: scale(0); opacity: 1; }
-    100% { transform: scale(1.5); opacity: 0; }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-10px);}
-    60% {transform: translateY(-5px);}
-}
-/* Radio and Checkbox Styling */
-.radio-group, .checkbox-grid {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-
-.radio-item, .check-item {
-    background: #f0f0f0;
-    padding: 8px 15px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.radio-item:hover, .check-item:hover {
-    background: var(--pastel-blue);
-}
-
-/* Hide default appearance for a cleaner look if desired, 
-   or keep standard for accessibility */
-.radio-item input, .check-item input {
-    cursor: pointer;
-}
-
-/* Styling the Price Output */
-output {
-    font-weight: bold;
-    color: var(--text-black);
-    text-align: center;
-    display: block;
-}
-/* Styling for the Dineout Form Elements */
 .radio-group, .checkbox-grid {
     display: flex;
     gap: 10px;
-    margin: 10px 0;
+    margin: 15px 0;
     flex-wrap: wrap;
 }
 
 .radio-item, .check-item {
     background: #f1f3f5;
-    padding: 8px 12px;
-    border-radius: 10px;
+    padding: 10px 15px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 0.9rem;
-    border: 1px solid transparent;
-    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
 }
 
-.radio-item:hover, .check-item:hover {
-    background: #e9ecef;
-    border-color: var(--pastel-blue);
-}
+.radio-item:hover, .check-item:hover { background: var(--pastel-blue); }
 
-/* Accent color for checkboxes/radios */
-input[type="radio"], input[type="checkbox"] {
-    accent-color: var(--text-black);
-    cursor: pointer;
-}
- /* Universal Result Pop-out Style */
+input[type="radio"], input[type="checkbox"] { accent-color: var(--text-black); }
+
+/* 7. Result Card & Confetti */
 .result-card {
     background: white;
-    margin: 15% auto;
+    margin: 10% auto;
     padding: 40px;
-    width: 380px;
-    border-radius: 40px; /* Rounded Edges as requested */
-    position: relative;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 40px;
     text-align: center;
     box-shadow: 0 25px 50px rgba(0,0,0,0.2);
     animation: popCenter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 2000;
+    position: relative;
+    z-index: 5000;
 }
 
 @keyframes popCenter {
@@ -304,13 +238,16 @@ input[type="radio"], input[type="checkbox"] {
 
 .confetti {
     position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
+    width: 8px; height: 8px;
     animation: fall 2.5s ease-out forwards;
 }
 
 @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(300px) rotate(720deg); opacity: 0; }
+    100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
