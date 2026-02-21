@@ -1,288 +1,316 @@
+/* 1. Global Reset & Variables */
 :root {
-    --pastel-blue: #d0e1ff;
-    --pastel-pink: #ffd0eb;
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --productive-gold: #D4AF37;
-    --neutral-blue: #5D87BB;
-    --sad-red: #C74B67;
+    --off-white: hsl(75, 76%, 90%);
+    --pastel-blue: #c1fcf9;
+    --pastel-green: #f3ffe1;
+    --pastel-peach: #FFDAC1;
+    --text-black: #000000;
+    --glass-white: rgba(0, 0, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-pink));
+    background-color: var(--off-white);
+    overflow-x: hidden; /* Prevent horizontal shake */
+}
+
+/* 2. Splash Page Layout */
+#splash-page {
     height: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     overflow: hidden;
 }
 
-.container {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); /* Safari support */
-    border-radius: 30px;
-    padding: 40px;
-    height: 85%;
-    width: 90%;
-    max-width: 450px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    border: 1px solid rgba(255,255,255,0.4);
-}
-
-h1 { color: #333; margin: 0; font-weight: 700; }
-.subtitle { color: #888; font-size: 0.85rem; margin-bottom: 30px; }
-
-/* --- Slider Section --- */
-.slider-container {
-    margin: 20px 0;
-    padding: 0 10px;
-}
-
-.mood-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #666;
-    margin-bottom: 12px;
-}
-
-.slider {
-    width: 100%;
-    appearance: none;
-    height: 10px;
-    border-radius: 10px;
-    /* This creates the smooth color journey */
-    background: linear-gradient(to right, #FFD93D, #A1C4FD, #FF8AAE); 
-    outline: none;
-    margin-bottom: 15px;
-}
-
-.slider::-webkit-slider-thumb {
-    appearance: none;
-    width: 24px;
-    height: 24px;
-    background: #ffffff;
-    border: 3px solid #fff;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    transition: transform 0.2s ease;
-}
-
-.slider::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-}
-
-.current-emoji {
-    font-size: 3.5rem;
-    margin: 10px 0;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: inline-block;
-}
-
-#moodText {
-    font-weight: 600;
-    margin-bottom: 25px;
-    transition: color 0.3s ease;
-}
-
-/* --- Category Menu --- */
-
-.category-menu {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-}
-
-.cat-btn {
-    border: none;
-    padding: 10px 18px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #555;
-}
-
-.cat-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    background: rgba(157, 255, 247, 0.5);
-
-}
-
-.cat-btn.active {
-    background: #ffffff;
-    color: #000000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transform: translateY(-2px);
-}
-/* Menu Preview Image */
-#menuPreview {
-    width: 100%;
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-top: 10px;
-    display: none; /* Hidden until upload */
-}
-
-/* Expense Slider Styling */
-.expense-range {
-    width: 100%;
-    accent-color: #ff9a9e;
-}
-
-.priority-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.7rem;
-    color: #888;
-    margin-top: 5px;
-}
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-#resultText:contains("Scanning") {
-    animation: pulse 1s infinite;
-    color: var(--neutral-blue);
-    font-weight: bold;
-}
-
-/* --- Result Card --- */
-.result-card {
-    background: rgba(245, 250, 165, 0.6);
-    padding: 20px;
-    border-radius: 20px;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 25px;
-    color: #444;
-    border: 1px dashed rgba(0,0,0,0.1);
-    transition: opacity 0.3s ease;
-}
-
-/* --- Magic Button --- */
-.magic-btn {
-    background: linear-gradient(45deg, #f68a8d, #fad0c4);
-    border: none;
-    padding: 16px 45px;
-    border-radius: 50px;
-    color: white;
-    font-weight: 800;
-    font-size: 1rem;
-    letter-spacing: 1px;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-}
-
-.magic-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(17, 1, 1, 0.5);
-    overflow: hidden;
-}
-
-.magic-btn:active {
-    transform: translateY(0);
-}
- .form-group { margin-bottom: 15px; text-align: left; }
-.form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
-.form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
-
-
-/* Modal Styles */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 100;
-    left: 0;
+/* Animated Pastel Gradient */
+.background-gradient {
+    position: absolute;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4); /* Dim background */
-    backdrop-filter: blur(5px);
+    z-index: -1;
+    background: linear-gradient(45deg, #ffb3b6, #fad0c4, #bbdffa, #c2e9fb);
+    background-size: 400% 400%;
+    animation: gradientBG 8s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Glassmorphism Card */
+.glass-container {
+    background: var(--glass-white);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    padding: 4rem 6rem;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    z-index: 2;
+}
+
+/* Popping Animations */
+.main-title {
+    font-size: 5rem;
+    color: #eeff8f;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.sub-text {
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 300;
+    opacity: 0;
+    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation-delay: 0.4s;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    color: white;
+    font-weight: bold;
+    animation: bounce 2s infinite;
+}
+
+/* 3. Dashboard Styles */
+#main-dashboard {
+    min-height: 100vh;
+    width: 100%;
+    padding-top: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background: white;
+    margin: 0 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.main-heading-black {
+    color: var(--text-black);
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.icon-btn { font-size: 1.5rem; cursor: pointer; color: #555; }
+
+/* Dashboard Dropdown */
+.dashboard-menu { position: relative; display: inline-block; }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: 220px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    z-index: 100;
+    border-radius: 15px;
+    padding: 15px;
+    top: 45px;
+}
+.dashboard-menu:hover .dropdown-content { display: block; }
+.dropdown-content a { 
+    display: block; 
+    padding: 12px; 
+    text-decoration: none; 
+    color: #000000; 
+    border-radius: 8px;
+}
+.dropdown-content a:hover { background-color: #f5f5f5; }
+
+/* Main Navigation Cards */
+.content-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+.card-container { display: flex; gap: 40px; }
+
+.nav-card {
+    width: 220px;
+    height: 220px;
+    background-color: var(--bg);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.nav-card:hover { transform: translateY(-15px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+.nav-card i { font-size: 3.5rem; margin-bottom: 15px; color: #020202; }
+.nav-card span { font-weight: bold; font-size: 1.3rem; color: var(--text-black); }
+
+/* 4. Modals */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
 }
 
 .modal-content {
     background: white;
-    margin: 5% auto; /* Reduced top margin to show more of the card */
-    padding: 25px;
-    border-radius: 25px;
+    margin: 10% auto;
+    padding: 40px;
     width: 90%;
-    max-width: 400px;
-    text-align: left;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    max-width: 450px;
+    border-radius: 30px;
     position: relative;
-    max-height: 90vh; /* Prevents the form from going off-screen */
-    overflow-y: auto; /* Adds a scrollbar if the content is too long */
-    animation: slideIn 0.3s ease-out;
+    animation: popIn 0.5s ease;
 }
 
-/* Ensure form groups have a bit more space */
-.form-group {
-    margin-bottom: 12px;
-}
+.close { position: absolute; right: 25px; top: 15px; font-size: 30px; cursor: pointer; color: #999; }
 
-.form-group input {
-    padding: 12px; /* Thicker touch targets */
-    border: 1.5px solid #eee;
-}
-
-@keyframes slideIn {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.close-btn {
+/* 5. Utility Animations */
+.glitter {
     position: absolute;
-    right: 20px;
-    top: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #999;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: sparkle 2s linear forwards;
 }
 
-.form-group {
-    margin-bottom: 20px;
+@keyframes sparkle {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    font-size: 0.9rem;
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+/* Radio and Checkbox Styling */
+.radio-group, .checkbox-grid {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
 }
 
-.form-group select, .form-group input {
-    width: 100%;
-    padding: 12px;
+.radio-item, .check-item {
+    background: #f0f0f0;
+    padding: 8px 15px;
     border-radius: 12px;
-    border: 1px solid #ddd;
-    outline: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Menu Upload Styling */
-.upload-box {
-    border: 2px dashed #b8c6ff;
-    padding: 20px;
-    text-align: center;
-    border-radius: 15px;
-    cursor: pointer;
-    background: #f9faff;
-    transition: 0.3s;
+.radio-item:hover, .check-item:hover {
+    background: var(--pastel-blue);
 }
-.upload-box:hover { background: #f0f3ff; }
-.upload-box i { font-size: 2rem; display: block; margin-bottom: 10px; }
+
+/* Hide default appearance for a cleaner look if desired, 
+   or keep standard for accessibility */
+.radio-item input, .check-item input {
+    cursor: pointer;
+}
+
+/* Styling the Price Output */
+output {
+    font-weight: bold;
+    color: var(--text-black);
+    text-align: center;
+    display: block;
+}
+/* Styling for the Dineout Form Elements */
+.radio-group, .checkbox-grid {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.radio-item, .check-item {
+    background: #f1f3f5;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    transition: 0.3s ease;
+}
+
+.radio-item:hover, .check-item:hover {
+    background: #e9ecef;
+    border-color: var(--pastel-blue);
+}
+
+/* Accent color for checkboxes/radios */
+input[type="radio"], input[type="checkbox"] {
+    accent-color: var(--text-black);
+    cursor: pointer;
+}
+ /* Universal Result Pop-out Style */
+.result-card {
+    background: white;
+    margin: 15% auto;
+    padding: 40px;
+    width: 380px;
+    border-radius: 40px; /* Rounded Edges as requested */
+    position: relative;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    animation: popCenter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2000;
+}
+
+@keyframes popCenter {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    animation: fall 2.5s ease-out forwards;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(300px) rotate(720deg); opacity: 0; }
+}
